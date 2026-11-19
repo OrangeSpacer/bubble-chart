@@ -1,0 +1,123 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: #f4f6fa;
+  color: #1d2a3a;
+  font-family: Inter, system-ui, Arial, sans-serif;
+}
+main {
+  max-width: 1060px;
+  margin: auto;
+  padding: 24px;
+}
+header,
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header {
+  margin-bottom: 18px;
+}
+h1 {
+  font-size: 25px;
+  margin: 0 0 4px;
+}
+h2 {
+  font-size: 17px;
+  margin: 0 0 12px;
+}
+p {
+  margin: 0;
+}
+header p,
+.hint {
+  color: #667387;
+  font-size: 12px;
+}
+.card {
+  background: white;
+  border: 1px solid #e0e5ed;
+  border-radius: 14px;
+  padding: 17px;
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+button,
+select,
+input[type='text'],
+input[type='number'] {
+  border: 1px solid #cbd3de;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: white;
+  color: #1d2a3a;
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}
+button.active {
+  background: #e1efff;
+  border-color: #488ed2;
+}
+.toolbar button + button {
+  margin-left: 6px;
+}
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.fields {
+  display: grid;
+  gap: 13px;
+}
+.fields label {
+  display: grid;
+  gap: 5px;
+  font-size: 13px;
+}
+.fields input[type='text'],
+.fields input[type='number'] {
+  width: 100%;
+}
+input[type='range'] {
+  width: 100%;
+  accent-color: #397fbb;
+}
+.two,
+.zone-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.zone-grid {
+  margin-top: 12px;
+}
+.zone-grid button {
+  padding: 10px;
+  border-radius: 7px;
+  font-size: 12px;
+  text-align: left;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+@media (max-width: 680px) {
+  main {
+    padding: 12px;
+  }
+  .columns {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    padding: 12px;
+  }
+}

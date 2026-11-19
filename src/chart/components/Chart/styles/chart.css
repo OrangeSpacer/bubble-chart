@@ -1,0 +1,9 @@
+.bubble-chart {
+  width: 100%;
+  overflow-x: auto;
+  margin: 10px 0;
+}
+
+.bubble-chart > div {
+  margin: auto;
+}
