@@ -5,6 +5,8 @@ export interface Tick {
   label: string;
   pixel: number;
   breakBefore?: boolean;
+  /** Служебная граница для интерполяции, которую не нужно рисовать. */
+  hidden?: boolean;
 }
 export interface Axis {
   ticks: Tick[];
@@ -50,7 +52,11 @@ export function createAxis(values: number[], length: number, step: number, mode:
     }
     previousBucket = bucket;
   }
-  if (kept[kept.length - 1].value < end) kept.push({ value: end, label: String(end) });
+  const last = kept[kept.length - 1];
+  if (last.value < end) {
+    // После последнего интервала с «+» граница нужна только для расчёта координат.
+    kept.push({ value: end, label: String(end), hidden: last.breakBefore === true });
+  }
   const unit = length / Math.max(1, kept.length - 1);
   const ticks = kept.map((t, index) => ({ ...t, pixel: index * unit }));
   const position = (value: number) => {

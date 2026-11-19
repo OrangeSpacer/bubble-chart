@@ -8,7 +8,7 @@ body {
   font-family: Inter, system-ui, Arial, sans-serif;
 }
 main {
-  max-width: 1060px;
+  width: 100%;
   margin: auto;
   padding: 24px;
 }
@@ -46,6 +46,17 @@ header p,
   padding: 17px;
   margin-bottom: 14px;
   overflow: hidden;
+}
+.chart-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: max(440px, calc(100dvh - 150px));
+}
+.chart-card > .bubble-chart {
+  flex: 1;
+  height: auto;
+  min-height: 280px;
 }
 button,
 select,
@@ -111,6 +122,9 @@ input[type='range'] {
   gap: 8px;
 }
 @media (max-width: 680px) {
+  .chart-card {
+    height: max(560px, calc(100dvh - 150px));
+  }
   main {
     padding: 12px;
   }

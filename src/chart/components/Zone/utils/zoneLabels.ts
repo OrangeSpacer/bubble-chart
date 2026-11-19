@@ -1,5 +1,5 @@
 import type { ZoneRectangle } from '../../Chart/utils/geometry';
-import type { ChartZone, ZoneTextPosition } from '../../../types';
+import type { ChartZone, ZoneTextPosition } from '../../../types/chart';
 
 const PADDING = 8;
 const GAP = 4;

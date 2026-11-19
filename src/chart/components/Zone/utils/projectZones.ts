@@ -1,5 +1,5 @@
 import { getZoneGeometry, type Projection, type ZoneRectangle } from '../../Chart/utils/geometry';
-import type { ChartZone } from '../../../types';
+import type { ChartZone } from '../../../types/chart';
 
 export interface ProjectedZone {
   zone: ChartZone;

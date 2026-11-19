@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { getZoneLabels } from '../utils/zoneLabels';
-import type { ChartZone } from '../../../types';
+import type { ChartZone } from '../../../types/chart';
 
 const rectangle = { x: 100, y: 100, width: 200, height: 120 };
 const zone: ChartZone = {

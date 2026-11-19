@@ -3,6 +3,57 @@ import { createInitialState, playgroundReducer } from '../state';
 import type { PlaygroundState } from '../model';
 
 describe('playgroundReducer', () => {
+  it('меняет медианы независимо, отключает их и восстанавливает при сбросе', () => {
+    const initial = createInitialState();
+    let next = playgroundReducer(initial, {
+      type: 'set-median',
+      axis: 'x',
+      settings: { value: 0, sign: '%' },
+    });
+    expect(next.medianSettings.x).toEqual({ value: 0, sign: '%' });
+    expect(next.medianSettings.y).toBe(initial.medianSettings.y);
+    expect(initial.medianSettings.x?.value).toBe(15);
+    next = playgroundReducer(next, { type: 'set-median', axis: 'y', settings: null });
+    expect(next.medianSettings.y).toBeNull();
+    expect(
+      playgroundReducer(next, { type: 'set-median', axis: 'x', settings: { value: NaN } }),
+    ).toBe(next);
+    expect(playgroundReducer(next, { type: 'reset' })).toEqual(initial);
+  });
+  it('переключает ведущие линии и восстанавливает их при сбросе', () => {
+    const initial = createInitialState();
+    const hidden = playgroundReducer(initial, {
+      type: 'settings',
+      patch: { showAxisLines: false },
+    });
+    expect(hidden.showAxisLines).toBe(false);
+    expect(hidden.data).toBe(initial.data);
+    expect(playgroundReducer(hidden, { type: 'reset' }).showAxisLines).toBe(initial.showAxisLines);
+  });
+  it('обновляет названия и знаки осей независимо и сбрасывает их', () => {
+    const initial = createInitialState();
+    let next = playgroundReducer(initial, {
+      type: 'settings',
+      patch: { xAxisTitle: 'Стоимость', xTickSuffix: ' ₽' },
+    });
+    expect(next).toMatchObject({
+      xAxisTitle: 'Стоимость',
+      xTickSuffix: ' ₽',
+      yAxisTitle: initial.yAxisTitle,
+      yTickSuffix: initial.yTickSuffix,
+    });
+    next = playgroundReducer(next, {
+      type: 'settings',
+      patch: { yAxisTitle: 'Эффект', yTickSuffix: '%' },
+    });
+    expect(next).toMatchObject({
+      xAxisTitle: 'Стоимость',
+      xTickSuffix: ' ₽',
+      yAxisTitle: 'Эффект',
+      yTickSuffix: '%',
+    });
+    expect(playgroundReducer(next, { type: 'reset' })).toEqual(initial);
+  });
   it.each(['magnets', 'red', 0, ''])(
     'выбирает зону с id %s и сбрасывает выбор отдельным действием',
     (id) => {

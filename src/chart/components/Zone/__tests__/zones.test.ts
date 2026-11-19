@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { countZones, getZonesForBubble, isPointInZone } from '../utils/zones';
-import type { Bubble, ChartZone } from '../../../types';
+import type { Bubble, ChartZone } from '../../../types/chart';
 
 const zones: ChartZone[] = [
   { id: 'left', x1: 0, x2: 15, y1: 0, y2: 40, color: '#fff' },

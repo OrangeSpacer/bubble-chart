@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { ChartZone } from '../../../types';
+import type { ChartZone } from '../../../types/chart';
 import type { Projection } from '../../Chart/utils/geometry';
 import { projectZones } from '../utils/projectZones';
 import { getZoneLabels } from '../utils/zoneLabels';

@@ -1,5 +1,5 @@
 import { Circle, Group } from 'react-konva';
-import type { Bubble } from '../../types';
+import type { Bubble } from '../../types/chart';
 
 interface MarkProps {
   bubble: Bubble;

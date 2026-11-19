@@ -1,4 +1,5 @@
 import type { BubblePatch, PlaygroundState } from './model';
+import type { MedianAxisSettings } from '../chart';
 
 export function createInitialState(): PlaygroundState {
   return {
@@ -16,6 +17,13 @@ export function createInitialState(): PlaygroundState {
     activeZoneId: null,
     xMode: 'grouped',
     yMode: 'grouped',
+    xAxisTitle: 'Ось X',
+    yAxisTitle: 'Ось Y',
+    xTickSuffix: '',
+    autoAxisGap: true,
+    medianSettings: { x: { value: 15, sign: '' }, y: { value: 40, sign: '' } },
+    yTickSuffix: '',
+    showAxisLines: false,
     step: 5,
     labels: true,
     zones: true,
@@ -26,13 +34,26 @@ export function createInitialState(): PlaygroundState {
 
 type Settings = Pick<
   PlaygroundState,
-  'xMode' | 'yMode' | 'step' | 'labels' | 'zones' | 'cutX' | 'cutY'
+  | 'xMode'
+  | 'yMode'
+  | 'step'
+  | 'labels'
+  | 'zones'
+  | 'cutX'
+  | 'cutY'
+  | 'xAxisTitle'
+  | 'yAxisTitle'
+  | 'xTickSuffix'
+  | 'yTickSuffix'
+  | 'showAxisLines'
+  | 'autoAxisGap'
 >;
 export type Action =
   | { type: 'reset' }
   | { type: 'select'; id: number }
   | { type: 'select-zone'; id: NonNullable<PlaygroundState['activeZoneId']> }
   | { type: 'reset-zone' }
+  | { type: 'set-median'; axis: 'x' | 'y'; settings: MedianAxisSettings | null }
   | { type: 'add' }
   | { type: 'update'; patch: BubblePatch }
   | { type: 'settings'; patch: Partial<Settings> };
@@ -45,6 +66,12 @@ export function playgroundReducer(state: PlaygroundState, action: Action): Playg
       return { ...state, activeZoneId: action.id };
     case 'reset-zone':
       return { ...state, activeZoneId: null };
+    case 'set-median':
+      if (action.settings && !Number.isFinite(action.settings.value)) return state;
+      return {
+        ...state,
+        medianSettings: { ...state.medianSettings, [action.axis]: action.settings },
+      };
     case 'select':
       return state.data.some((bubble) => bubble.id === action.id)
         ? { ...state, selectedId: action.id }

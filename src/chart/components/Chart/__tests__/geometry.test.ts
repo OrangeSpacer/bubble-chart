@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { createAxis } from '../../Axis/utils/axis';
 import { CHART } from '../constants/chart';
 import { createProjection, getZoneGeometry } from '../utils/geometry';
-import type { ChartZone } from '../../../types';
+import type { ChartZone } from '../../../types/chart';
 
 const zone: ChartZone = { id: 'test', x1: 10, x2: 40, y1: 20, y2: 60, color: '#fff' };
 

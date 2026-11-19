@@ -1,6 +1,8 @@
 import { useReducer } from 'react';
 import { BubbleChart } from '../chart';
 import { ChartControls } from './components/ChartControls';
+import { AxisSettings } from './components/AxisSettings';
+import { MedianSettingsPanel } from './components/MedianSettings';
 import { BubbleEditor, BubbleList, ZoneSettings } from './components/Panels';
 import { createInitialState, playgroundReducer } from './state';
 import { createDemoZones } from './zones';
@@ -20,22 +22,28 @@ export function App() {
         </div>
         <button onClick={() => dispatch({ type: 'reset' })}>↺ Сбросить</button>
       </header>
-      <section className="card" aria-label="Диаграмма">
+      <section className="card chart-card" aria-label="Диаграмма">
         <ChartControls state={state} dispatch={dispatch}>
           <BubbleChart
             data={state.data}
             selectedId={state.selectedId}
             activeZoneId={state.activeZoneId}
-            xMode={state.xMode}
-            yMode={state.yMode}
-            step={state.step}
             labels={state.labels}
             zones={state.zones ? zones : undefined}
-            axisLabels={{ x: 'Ось X', y: 'Ось Y' }}
+            axisSettings={{
+              x: { title: state.xAxisTitle, tickSuffix: state.xTickSuffix, mode: state.xMode },
+              y: { title: state.yAxisTitle, tickSuffix: state.yTickSuffix, mode: state.yMode },
+              step: state.step,
+              showLines: state.showAxisLines,
+              autoGap: state.autoAxisGap,
+            }}
+            medianSettings={state.medianSettings}
             onSelect={(id) => dispatch({ type: 'select', id })}
           />
         </ChartControls>
       </section>
+      <AxisSettings state={state} dispatch={dispatch} />
+      <MedianSettingsPanel state={state} dispatch={dispatch} />
       <div className="columns">
         <BubbleEditor
           bubble={selectedBubble}

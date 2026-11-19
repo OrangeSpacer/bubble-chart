@@ -2,6 +2,31 @@ import { describe, expect, it } from 'vitest';
 import { createAxis } from '../utils/axis';
 
 describe('createAxis', () => {
+  it('скрывает конечное деление после последнего интервала с плюсом, сохраняя геометрию', () => {
+    const axis = createAxis([8, 12, 16, 21, 25, 45], 400, 10, 'grouped');
+    expect(axis.ticks.filter((tick) => !tick.hidden).map((tick) => tick.label)).toEqual([
+      '0',
+      '10',
+      '20',
+      '40+',
+    ]);
+    expect(axis.ticks.at(-1)).toMatchObject({ value: 50, hidden: true, pixel: 400 });
+    expect(axis.max).toBe(50);
+    expect(axis.position(40)).toBe(300);
+    expect(axis.position(45)).toBe(350);
+    expect(axis.position(50)).toBe(400);
+  });
+
+  it('сохраняет последнее деление в Linear и Grouped без завершающего разрыва', () => {
+    for (const mode of ['linear', 'grouped'] as const) {
+      const axis = createAxis([8, 18, 28, 38, 45], 400, 10, mode);
+      expect(axis.ticks.at(-1)?.hidden).not.toBe(true);
+      expect(axis.ticks.at(-1)?.label).toBe('50');
+    }
+    const exact = createAxis([8, 40], 100, 10, 'grouped');
+    expect(exact.ticks.at(-1)).toMatchObject({ label: '40+', pixel: 100 });
+    expect(exact.ticks.at(-1)?.hidden).not.toBe(true);
+  });
   it('places linear ticks and interpolates coordinates', () => {
     const axis = createAxis([8, 45], 100, 10, 'linear');
     expect(axis.ticks.map((tick) => tick.value)).toEqual([0, 10, 20, 30, 40, 50]);

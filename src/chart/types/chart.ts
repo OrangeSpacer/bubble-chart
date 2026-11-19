@@ -1,4 +1,8 @@
-import type { Mode } from '../components/Axis/utils/axis';
+import type { AxesSettings } from './axisSettings';
+import type { MedianSettings } from './medianSettings';
+export type { AxisSettings, AxesSettings } from './axisSettings';
+export type { MedianSettings, MedianAxisSettings } from './medianSettings';
+import type { CSSProperties } from 'react';
 
 export interface Bubble {
   id: number;
@@ -8,7 +12,7 @@ export interface Bubble {
   /** Исходное значение; радиус нормализуется по максимальному size в массиве данных. */
   size: number;
   color: string;
-  /** Связь с зоной из данных бэка; без неё пузырёк не приглушается при выборе зоны. */
+  /** Связь с зоной из данных бэка; без неё пузырёк приглушается при выборе любой зоны. */
   zoneId?: ChartZone['id'] | null;
 }
 
@@ -33,18 +37,18 @@ export interface ChartZone {
 
 /** Управляемая диаграмма: данные, выбор объекта и настройки хранит вызывающее приложение. */
 export interface BubbleChartProps {
+  axisSettings?: AxesSettings;
+  /** Значения медиан приходят извне и не участвуют в расчёте диапазонов осей. */
+  medianSettings?: MedianSettings;
+  /** Класс контейнера для оформления, в том числе через styled(BubbleChart). */
+  className?: string;
+  /** Высота контейнера; по умолчанию занимает высоту родителя, минимум 280 px. */
+  height?: CSSProperties['height'];
   data: readonly Bubble[];
   selectedId?: number;
   onSelect?: (id: number) => void;
-  mode?: Mode;
-  /** Переопределяет общий тип шкалы для оси X. */
-  xMode?: Mode;
-  /** Переопределяет общий тип шкалы для оси Y. */
-  yMode?: Mode;
-  step?: number;
   labels?: boolean;
   zones?: readonly ChartZone[];
   /** Активная зона; null или отсутствие значения отключает приглушение. */
   activeZoneId?: ChartZone['id'] | null;
-  axisLabels?: { x: string; y: string };
 }

@@ -10,11 +10,11 @@ describe('прозрачность при выборе зоны', () => {
     },
   );
 
-  it('приглушает только связанные объекты из других зон', () => {
+  it('приглушает объекты из других зон и без привязки', () => {
     expect(getZoneFocusOpacity('a', 'a')).toBe(1);
     expect(getZoneFocusOpacity('b', 'a')).toBe(0.25);
-    expect(getZoneFocusOpacity(undefined, 'a')).toBe(1);
-    expect(getZoneFocusOpacity(null, 'a')).toBe(1);
+    expect(getZoneFocusOpacity(undefined, 'a')).toBe(0.25);
+    expect(getZoneFocusOpacity(null, 'a')).toBe(0.25);
   });
 
   it('поддерживает нулевой и пустой id и сравнивает идентификаторы без приведения типов', () => {

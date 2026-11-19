@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
-import type { Bubble } from '../../../types';
-import { CHART } from '../../Chart/constants/chart';
+import type { Bubble } from '../../../types/chart';
 import type { Projection, ZoneRectangle } from '../../Chart/utils/geometry';
 import { createBubbleRadiusScale } from '../utils/bubbleSize';
 import { layoutBubbleLabels } from '../utils/labelLayout';
@@ -27,6 +26,7 @@ export function useBubbles(
 
   const bubbleLabels = useMemo(() => {
     if (!labels) return [];
+    const { left, top, plotWidth, plotHeight } = projection.layout;
     const anchors = positionedBubbles.map(({ bubble, x, y, radius }) => ({
       id: bubble.id,
       text: bubble.name,
@@ -39,14 +39,14 @@ export function useBubbles(
     return layoutBubbleLabels(
       anchors,
       {
-        x: CHART.left + 4,
-        y: CHART.top + 4,
-        width: CHART.plotWidth - 8,
-        height: CHART.plotHeight - 8,
+        x: left + 4,
+        y: top + 4,
+        width: Math.max(0, plotWidth - 8),
+        height: Math.max(0, plotHeight - 8),
       },
       obstacles,
     );
-  }, [positionedBubbles, obstacles, labels]);
+  }, [positionedBubbles, projection, obstacles, labels]);
 
   const bubbles = useMemo(
     () =>

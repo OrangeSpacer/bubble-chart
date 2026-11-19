@@ -1,4 +1,4 @@
-import type { Bubble } from '../../../types';
+import type { Bubble } from '../../../types/chart';
 
 const MIN_RADIUS = 5;
 const MAX_RADIUS = 28;

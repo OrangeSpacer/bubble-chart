@@ -1,4 +1,4 @@
-import type { Bubble, ChartZone } from '../../../types';
+import type { Bubble, ChartZone } from '../../../types/chart';
 
 export function getZoneBounds(zone: Pick<ChartZone, 'x1' | 'x2' | 'y1' | 'y2'>) {
   if (![zone.x1, zone.x2, zone.y1, zone.y2].every(Number.isFinite)) return null;
